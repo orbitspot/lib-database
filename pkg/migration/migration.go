@@ -14,7 +14,7 @@ func RunMigrations(dbInstance *gorm.DB, migrations []*gormigrate.Migration) {
 		panic("Env ENVIRONMENT is not defined")
 	}
 	if err := dbInstance.DB().Ping(); err != nil {
-		log.Fatalf("dbMySQL error: %v", err)
+		log.Fatalf("Db error: %v", err)
 	}
 	m := gormigrate.New(dbInstance, gormigrate.DefaultOptions, migrations)
 	if err := m.Migrate(); err != nil {
