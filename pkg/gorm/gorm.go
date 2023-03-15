@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"os"
 	"strconv"
 	// Necessary to drivers postgres
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -24,7 +25,7 @@ type PoolWithoutInstanceError struct{}
 var (
 	poolGormDb    map[string]*gorm.DB = make(map[string]*gorm.DB)
 	LogModeEnable                     = func() bool {
-		return true
+		return os.Getenv("LOG_MODE") == "true"
 	}()
 )
 
