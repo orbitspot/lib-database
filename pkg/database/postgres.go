@@ -3,6 +3,9 @@ package database
 import (
 	"github.com/jinzhu/gorm"
 	tools "github.com/orbitspot/lib-database/pkg/gorm"
+	"github.com/orbitspot/lib-metrics/pkg/log"
+	"os"
+	"strings"
 	"sync"
 )
 
@@ -40,14 +43,20 @@ func (r *PostgresRepository) Stop() {
 
 // GetInstance returns a unique instance of gorm.DB
 func (r *PostgresRepository) GetInstance() *gorm.DB {
+
 	r.once.Do(func() {
+		logLevel := os.Getenv("SHOW_SQL") != "" && strings.ToLower(os.Getenv("SHOW_SQL")) == "true"
+		if !logLevel {
+			log.Warn("Log Level Disabled")
+			log.Info("To Enable sql mode set variable SHOW_SQL to true")
+		}
 		var err error
 		r.dbPostgres, err = tools.GetGormDb()
 		if err != nil {
 			panic(err.Error())
 		}
 		r.dbPostgres.SingularTable(true)
-		r.dbPostgres.LogMode(true)
+		r.dbPostgres.LogMode(logLevel)
 	})
 	return r.dbPostgres
 }
