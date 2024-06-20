@@ -24,7 +24,8 @@ func RunMigrations(dbInstance *gorm.DB, migrations []*gormigrate.Migration) {
 }
 
 // ExecRaw simplify error handling for sql commands
-func ExecRaw(db *gorm.DB, command string) bool {
+func ExecRaw(db *gorm.DB, command string, version string) bool {
+	log.Printf("Executing Migration Versionament: %s", version)
 	err := db.Exec(command).Error
 	if err != nil {
 		message := fmt.Sprintf("Migration Error into %v environment while evaluating command:\n\n ==> %v \n\nERROR:\n\n ==> %v", os.Getenv("ENVIRONMENT"), command, err.Error())

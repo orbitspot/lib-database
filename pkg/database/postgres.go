@@ -20,6 +20,7 @@ type PostgresConfiguration struct {
 	DBHost string
 	DBPort int
 	DBName string
+	Ssl    bool
 }
 
 // MySQL var to use
@@ -33,7 +34,7 @@ func (r *PostgresRepository) Start(configuration PostgresConfiguration) {
 		configuration.DBHost,
 		configuration.DBPort,
 		configuration.DBName,
-		false)
+		configuration.Ssl)
 }
 
 // StopPostgres stop the DB
