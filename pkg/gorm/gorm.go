@@ -147,7 +147,7 @@ func generateDsn(driverName string, user string, pass string, host string, port 
 	var sslOption string
 
 	if sslMode {
-		sslOption = "enable"
+		sslOption = "verify-ca"
 	} else {
 		sslOption = "disable"
 	}
